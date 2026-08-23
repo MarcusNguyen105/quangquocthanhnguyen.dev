@@ -3,7 +3,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://quangquocthanhnguyen.dev',
+  site: 'https://marcusnguyen105.github.io',
+  base: '/quangquocthanhnguyen.dev',
   integrations: [
     starlight({
       title: 'Quang Quoc Thanh Nguyen',
