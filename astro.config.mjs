@@ -29,6 +29,11 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Portfolio & Case Studies',
+          autogenerate: { directory: 'portfolio' },
+          collapsed: false,
+        },
+        {
           label: 'Routing (CCNA / CCNP)',
           autogenerate: { directory: 'routing' },
           collapsed: false,
