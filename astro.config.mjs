@@ -25,27 +25,47 @@ export default defineConfig({
         {
           label: 'Overview',
           items: [
-            { label: 'Welcome & System Map', slug: 'index' },
+            { label: 'Welcome & Knowledge Hub', slug: 'index' },
           ],
+        },
+        {
+          label: 'Routing (CCNA / CCNP)',
+          autogenerate: { directory: 'routing' },
+          collapsed: false,
+        },
+        {
+          label: 'Switching (L2 / L3)',
+          autogenerate: { directory: 'switching' },
+          collapsed: false,
+        },
+        {
+          label: 'Network Services & Operations',
+          autogenerate: { directory: 'services' },
+          collapsed: true,
+        },
+        {
+          label: 'Network Security & Hardening',
+          autogenerate: { directory: 'security' },
+          collapsed: true,
+        },
+        {
+          label: 'Nexus Dashboard & Data Center',
+          autogenerate: { directory: 'nexus-dashboard' },
+          collapsed: true,
         },
         {
           label: 'Software Architecture',
           autogenerate: { directory: 'architecture' },
-          collapsed: false,
+          collapsed: true,
         },
         {
           label: 'Cloud & DevOps',
           autogenerate: { directory: 'cloud-devops' },
-          collapsed: false,
+          collapsed: true,
         },
         {
           label: 'AI & Machine Learning',
           autogenerate: { directory: 'ai-ml' },
-          collapsed: false,
-        },
-        {
-          label: 'Cybersecurity',
-          autogenerate: { directory: 'security' },
           collapsed: true,
         },
         {
