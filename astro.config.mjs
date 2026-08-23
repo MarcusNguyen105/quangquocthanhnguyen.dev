@@ -13,7 +13,7 @@ export default defineConfig({
       },
       social: {
         github: 'https://github.com/quangquocthanhnguyen',
-        linkedin: 'https://linkedin.com/in/quangquocthanhnguyen',
+        linkedin: 'https://www.linkedin.com/in/2a04271aa',
         youtube: 'https://youtube.com',
       },
       customCss: [

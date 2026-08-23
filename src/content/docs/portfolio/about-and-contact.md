@@ -29,7 +29,7 @@ I am a Network & Systems Engineer passionate about designing resilient, high-per
     <span class="tile-tag">Code & Labs</span>
   </a>
 
-  <a class="tile" href="https://linkedin.com/in/quangquocthanhnguyen" target="_blank" rel="noopener noreferrer">
+  <a class="tile" href="https://www.linkedin.com/in/2a04271aa" target="_blank" rel="noopener noreferrer">
     <div class="tile-icon-wrapper">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
