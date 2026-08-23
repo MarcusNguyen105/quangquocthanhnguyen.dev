@@ -35,7 +35,7 @@ spec:
         readOnlyRootFilesystem: true
       containers:
       - name: gateway
-        image: ghcr.io/marcusnguyen105/api-gateway:v1.4.2
+        image: ghcr.io/quangquocthanhnguyen/api-gateway:v1.4.2
         resources:
           requests:
             cpu: "250m"

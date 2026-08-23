@@ -38,7 +38,7 @@ A full enterprise network security hardening project implementing defense-in-dep
 * **Control Plane Policing (CoPP):** Policy-maps rate-limiting ICMP, BGP, OSPF, and SSH to protect the route processor against DoS attacks.
 * **Layer 2 Protection Fabric:** Deployed Dynamic ARP Inspection (DAI), IP Source Guard (IPSG), DHCP Snooping with Option 82, and BPDU Guard across all access ports.
 * **AAA & Role-Based Access Control:** Configured TACACS+/RADIUS server groups with local failback privilege levels.
-* **GitHub Repository:** [MarcusNguyen105/Network-Security---NET-577](https://github.com/MarcusNguyen105/Network-Security---NET-577)
+* **GitHub Repository:** [quangquocthanhnguyen/Network-Security---NET-577](https://github.com/quangquocthanhnguyen/Network-Security---NET-577)
 
 ---
 
@@ -74,7 +74,7 @@ Large-scale enterprise routing topology simulation designed for high availabilit
 * **Hierarchical Routing Architecture:** Multi-area OSPFv2/OSPFv3 core with BGP exterior routing and route summarization at ABR/ASBR boundaries.
 * **High Availability & First-Hop Redundancy:** HSRP/VRRP with IP SLA tracking and Rapid Spanning Tree (RSTP / 802.1w).
 * **Virtual Port Channels & LACP:** Port-channel bundling across dual-homed access switches to eliminate STP blocked ports.
-* **GitHub Repository:** [MarcusNguyen105/Network-Simulation](https://github.com/MarcusNguyen105/Network-Simulation)
+* **GitHub Repository:** [quangquocthanhnguyen/Network-Simulation](https://github.com/quangquocthanhnguyen/Network-Simulation)
 
 ---
 
@@ -101,7 +101,7 @@ Multi-node virtualization cluster simulating datacenter routing, container workl
 * **Virtual Switching & SDN:** VMware vSphere Standard/Distributed Switches, Cisco Nexus 9000v virtual switches, and pfSense firewall routing.
 * **Network Automation:** Python/Netmiko scripts and Ansible playbooks automating configuration backups, VLAN provisioning, and interface audits.
 * **Storage & SAN:** TrueNAS Core ZFS storage over dedicated 10GbE iSCSI / NFS networks with jumbo frames (MTU 9000).
-* **GitHub Repository:** [MarcusNguyen105/Home-Lab-series](https://github.com/MarcusNguyen105/Home-Lab-series)
+* **GitHub Repository:** [quangquocthanhnguyen/Home-Lab-series](https://github.com/quangquocthanhnguyen/Home-Lab-series)
 
 ---
 
@@ -112,7 +112,7 @@ Zero-downtime infrastructure migration covering directory services, DNS/DHCP con
 #### Key Implementations:
 * **Active Directory Migration:** Forest functional level upgrade, FSMO role transfer, and cross-forest trust establishment.
 * **Automated DHCP/DNS Failover:** Load-sharing DHCP split-scopes with 80/20 redundancy and dynamic DNS update security.
-* **GitHub Repository:** [MarcusNguyen105/Server-Migration](https://github.com/MarcusNguyen105/Server-Migration)
+* **GitHub Repository:** [quangquocthanhnguyen/Server-Migration](https://github.com/quangquocthanhnguyen/Server-Migration)
 
 ---
 
@@ -120,4 +120,4 @@ Zero-downtime infrastructure migration covering directory services, DNS/DHCP con
 
 Security vulnerability analysis, offensive CTF write-ups, and remediation blueprints based on the OWASP Top 10.
 
-* **GitHub Repository:** [MarcusNguyen105/Web-Security-CTF](https://github.com/MarcusNguyen105/Web-Security-CTF)
+* **GitHub Repository:** [quangquocthanhnguyen/Web-Security-CTF](https://github.com/quangquocthanhnguyen/Web-Security-CTF)

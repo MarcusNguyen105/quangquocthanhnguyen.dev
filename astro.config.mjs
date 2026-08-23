@@ -3,8 +3,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://marcusnguyen105.github.io',
-  base: '/quangquocthanhnguyen.dev',
+  site: 'https://quangquocthanhnguyen.github.io',
   integrations: [
     starlight({
       title: 'Quang Quoc Thanh Nguyen',
@@ -13,7 +12,7 @@ export default defineConfig({
         src: './src/assets/logo.svg',
       },
       social: {
-        github: 'https://github.com/MarcusNguyen105',
+        github: 'https://github.com/quangquocthanhnguyen',
         linkedin: 'https://linkedin.com/in/quangquocthanhnguyen',
         youtube: 'https://youtube.com',
       },
@@ -84,7 +83,7 @@ export default defineConfig({
         maxHeadingLevel: 4,
       },
       editLink: {
-        baseUrl: 'https://github.com/MarcusNguyen105/quangquocthanhnguyen.dev/edit/main/',
+        baseUrl: 'https://github.com/quangquocthanhnguyen/quangquocthanhnguyen.github.io/edit/main/',
       },
       credits: false,
     }),
