@@ -3,16 +3,103 @@ title: "EIGRP Enhanced Interior Gateway Routing Protocol"
 description: "Comprehensive technical guide and configuration reference for EIGRP Enhanced Interior Gateway Routing Protocol."
 ---
 
-# Protocol Structure
+# Protocol & Packet Structure
 
-Protocol number 88.
+EIGRP (Enhanced Interior Gateway Routing Protocol) operates directly on top of **Layer 3 (IP)** using dedicated IP **Protocol Number 88**. It does not use Layer 4 transport protocols like TCP (6) or UDP (17), but instead relies on its own proprietary **Reliable Transport Protocol (RTP)** embedded within the EIGRP payload.
 
-Lives inside the payload of the Layer 3 IP field.
-- *UPDATE: make my own diagram and explain better where it is and apacket structure*
+---
 
-![[Pasted image 20260414090437.png]]
+## 📦 Layer 3 Encapsulation & Wire Format
 
-![[Pasted image 20260414090446.png]]
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 Ethernet II Frame (Layer 2)                            │
+│  [ Dst MAC: 01-00-5E-00-00-0A / Unicast ] [ Src MAC ] [ EtherType: 0x0800 (IPv4) ]     │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│                                  IPv4 Packet (Layer 3)                                 │
+│  [ Dst IP: 224.0.0.10 / Unicast ] [ Src IP: Router Interface ] [ Protocol: 88 (EIGRP) ]│
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│                                 EIGRP Generic Header (20 Bytes)                         │
+│  [ Version (8b) ] [ Opcode (8b) ] [ Checksum (16b) ] [ Flags (32b) ]                   │
+│  [ Sequence Number (32b) ] [ Acknowledgment Number (32b) ] [ Autonomous System (16b) ] │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│                              EIGRP Type-Length-Value (TLV) Data                        │
+│  [ TLV Type (16b) ] [ TLV Length (16b) ] [ TLV Value Data / Route Vectors (Variable) ] │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Addressing & Multicast Characteristics
+* **IPv4 Multicast Destination:** `224.0.0.10` (*All-EIGRP-Routers* multicast group)
+* **IPv6 Multicast Destination:** `FF02::A`
+* **Layer 2 Multicast MAC:** `01-00-5E-00-00-0A`
+* **Transport:** Direct IP Protocol `88` (No port numbers; uses Sequence/Ack fields in EIGRP header)
+
+---
+
+## 🧩 EIGRP 20-Byte Generic Header Layout
+
+Every EIGRP packet begins with a standard 20-byte fixed header:
+
+```
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|    Version    |    Opcode     |           Checksum            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             Flags                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Sequence Number                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                     Acknowledgment Number                     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|      Virtual Router ID        |   Autonomous System Number    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+### Field Definitions
+
+| Field | Size | Description |
+| :--- | :--- | :--- |
+| **Version** | 8 bits | Protocol version (currently **Version 2** in modern Cisco IOS / IOS-XE). |
+| **Opcode** | 8 bits | Packet Type Identifier:<br>• `1` = **Update** (Route advertisements)<br>• `2` = **Request** (Route table query)<br>• `3` = **Query** (DUAL diffusing search)<br>• `4` = **Reply** (Response to Query)<br>• `5` = **Hello** (Neighbor discovery / Ack if empty)<br>• `10` = **SIA-Query** (Stuck-in-Active query)<br>• `11` = **SIA-Reply** (Stuck-in-Active response) |
+| **Checksum** | 16 bits | Standard one's complement checksum computed over the entire EIGRP packet. |
+| **Flags** | 32 bits | Operational control bits:<br>• `0x00000001` (**Init**): Initial topology exchange between new neighbors.<br>• `0x00000002` (**CR-bit**): Conditionally Received flag.<br>• `0x00000004` (**Restart**): Graceful restart indication.<br>• `0x00000008` (**EOT**): End-of-Table transmission indicator. |
+| **Sequence Number** | 32 bits | 32-bit sequence tracking used by **RTP** for reliable delivery. `0` on Hello/Ack packets. |
+| **Ack Number** | 32 bits | Sequence number of the previous packet being acknowledged to the sender. |
+| **VRID / AS Number** | 32 bits | 16-bit Virtual Router ID (VRF instance) + 16-bit Autonomous System number (must match between peers). |
+
+---
+
+## 🏷️ Type-Length-Value (TLV) Data Structures
+
+Following the 20-byte generic header, EIGRP carries one or more TLV blocks to transport route metrics, neighbor parameters, and authentication data.
+
+```
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           TLV Type            |          TLV Length           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
+|                        TLV Value Data                         |
+|                           (...)                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+### Major EIGRP TLVs
+
+| Type (Hex) | Name | Description |
+| :--- | :--- | :--- |
+| `0x0001` | **Parameter TLV** | Carried in Hello packets. Contains the **K-values** ($K_1, K_2, K_3, K_4, K_5, K_6$) and **Hold Time**. Peers reject neighborship if K-values do not match. |
+| `0x0002` | **Authentication TLV** | Contains MD5 / SHA-256 HMAC digest, Key ID, and key chain parameters. |
+| `0x0003` | **Sequence TLV** | Used by RTP to list neighbor addresses that must NOT receive multicast updates. |
+| `0x0004` | **Software Version TLV** | Contains Cisco IOS version and EIGRP release information. |
+| `0x0005` | **Next Multicast Sequence** | Used for reliable multicast sequencing. |
+| `0x0102` | **IPv4 Internal Route** | Carries destination prefix, prefix length, and metric attributes (Bandwidth, Delay, MTU, Reliability, Load, Hop Count). |
+| `0x0103` | **IPv4 External Route** | Carries redistributed routes along with origin router ID, external AS number, and external metric tags. |
+| `0x0402` / `0x0403` | **IPv6 Internal / External** | Multi-protocol TLVs for IPv6 prefix reachability and wide metrics. |
+
+---
 
 # Neighborship
 
